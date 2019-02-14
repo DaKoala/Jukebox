@@ -1,0 +1,23 @@
+:root {
+    --vue-green: #42b883;
+    --white: #ffffff;
+}
+
+.control {
+    display: flex;
+    justify-content: center;
+}
+
+.control__btn {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: var(--vue-green);
+    color: white;
+    margin: 10px;
+    font-size: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

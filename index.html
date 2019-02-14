@@ -2,14 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="index.css">
     <title>Jukebox</title>
 </head>
 <body>
-    <div>
-        <button id="previous">Previous</button>
-        <button id="play">Play/Pause</button>
-        <button id="stop">Stop</button>
-        <button id="next">Next</button>
+    <div class="control">
+        <div class="control__btn" id="previous">
+            <i class="fas fa-step-backward"></i>
+        </div>
+        <div class="control__btn" id="play">
+            <i class="fas fa-play"></i>
+        </div>
+        <div class="control__btn" id="stop">
+            <i class="fas fa-stop"></i>
+        </div>
+        <div class="control__btn" id="next">
+            <i class="fas fa-step-forward"></i>
+        </div>
     </div>
     <audio id="music">
         <source src="whatever.mp3" type="audio/mpeg">
