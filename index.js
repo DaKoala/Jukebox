@@ -10,9 +10,10 @@ class Song {
 }
 
 class Jukebox {
-    constructor(songs, playId, nextId, previousId, stopId) {
+    constructor(songs, playId, nextId, previousId, stopId, playIconId) {
         this.songs = songs;
         this.songPointer = 0;
+        this.playIconId = playIconId;
         this.playBtn = document.getElementById(playId);
         this.playBtn.addEventListener('click', () => {
             this.playCurrent();
@@ -31,20 +32,34 @@ class Jukebox {
         });
     }
 
+    changeIconToPlay() {
+        const icon = document.getElementById(this.playIconId);
+        icon.classList.remove('fa-pause');
+        icon.classList.add('fa-play');
+    }
+
+    changeIconToPause() {
+        const icon = document.getElementById(this.playIconId);
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+    }
+
     getCurrentSong() {
         return this.songs[this.songPointer];
     }
 
     getCurrentAudio() {
-        return this.getCurrentSong().audio();
+        return this.getCurrentSong().audio;
     }
 
     playCurrent() {
         const audio = this.getCurrentAudio();
         if (audio.paused) {
             audio.play();
+            this.changeIconToPause();
         } else {
             audio.pause();
+            this.changeIconToPlay();
         }
         return this;
     }
@@ -53,6 +68,7 @@ class Jukebox {
         const audio = this.getCurrentAudio();
         audio.pause();
         audio.currentTime = 0;
+        this.changeIconToPlay();
         return this;
     }
 
@@ -60,6 +76,7 @@ class Jukebox {
         this.stop();
         this.increasePointer();
         this.playCurrent();
+        this.changeIconToPause();
         return this;
     }
 
@@ -67,6 +84,7 @@ class Jukebox {
         this.stop();
         this.decreasePointer();
         this.playCurrent();
+        this.changeIconToPause();
         return this;
     }
 
@@ -85,4 +103,4 @@ const songs = [
     new Song('whatever', 'whatever.mp3'),
     new Song('heyjude', 'heyjude.mp3'),
 ];
-const jukebox = new Jukebox(songs, 'play', 'next', 'previous', 'stop');
+const jukebox = new Jukebox(songs, 'play', 'next', 'previous', 'stop', 'play-icon');
