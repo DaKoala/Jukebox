@@ -5,13 +5,16 @@ class Song {
     };
     play() {
         const audio = new Audio(this.sound);
-        console.log(audio.play());
     };
 }
 
 class Jukebox {
-    constructor(songs) {
+    constructor(songs, playId) {
         this.songs = songs;
+        this.playBtn = document.getElementById(playId);
+        this.playBtn.addEventListener('click', () => {
+            this.playTheFirst();
+        });
     }
 
     playTheFirst() {
@@ -19,11 +22,7 @@ class Jukebox {
     }
 }
 
-// const song = new Song('whatever', 'whatever.mp3');
-// const jukebox = new Jukebox([
-//     song,
-// ]);
-//
-// jukebox.playTheFirst();
-const music = document.getElementById('music');
-music.play();
+const song = new Song('whatever', 'whatever.mp3');
+const jukebox = new Jukebox([
+    song,
+], 'play');
