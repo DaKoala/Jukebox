@@ -11,18 +11,24 @@ class Song {
 class Jukebox {
     constructor(songs, playId) {
         this.songs = songs;
+        this.songPointer = 0;
         this.playBtn = document.getElementById(playId);
         this.playBtn.addEventListener('click', () => {
-            this.playTheFirst();
+            this.playCurrent();
         });
     }
 
-    playTheFirst() {
-        this.songs[0].play();
+    playCurrent() {
+        const song = this.songs[this.songPointer].audio;
+        if (song.paused) {
+            song.play();
+        } else {
+            song.pause();
+        }
     }
 }
 
-const song = new Song('whatever', 'whatever.mp3');
-const jukebox = new Jukebox([
-    song,
-], 'play');
+const songs = [
+    new Song('whatever', 'whatever.mp3'),
+];
+const jukebox = new Jukebox(songs, 'play');
