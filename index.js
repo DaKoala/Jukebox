@@ -25,5 +25,5 @@ class Jukebox {
 // ]);
 //
 // jukebox.playTheFirst();
-const music = document.getElementById('music');
+//const music = document.getElementById('music');
 music.play();
