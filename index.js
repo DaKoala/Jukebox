@@ -1,10 +1,10 @@
 class Song {
     constructor(name, sound) {
         this.name = name;
-        this.sound = sound;
+        this.audio = new Audio(sound);
     };
     play() {
-        const audio = new Audio(this.sound);
+        this.audio.play();
     };
 }
 
@@ -26,4 +26,3 @@ const song = new Song('whatever', 'whatever.mp3');
 const jukebox = new Jukebox([
     song,
 ], 'play');
-
