@@ -26,3 +26,4 @@ const song = new Song('whatever', 'whatever.mp3');
 const jukebox = new Jukebox([
     song,
 ], 'play');
+
