@@ -1,6 +1,73 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i');
+
+html {
+    font-family: 'Roboto', sans-serif;
+}
+
 :root {
     --vue-green: #42b883;
-    --white: #ffffff;
+    --vue-dark: #35495e;
+}
+
+.container {
+    min-width: 500px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.info__title {
+    color: var(--vue-dark);
+    font-size: 36px;
+}
+
+.info__cover {
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+
+.info__hole {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+}
+
+.progress {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.progress__bar {
+    position: relative;
+    width: 350px;
+    height: 8px;
+    border-radius: 100px;
+    background-color: #ddd;
+}
+
+.progress__bar--active {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    background-color: var(--vue-green);
+}
+
+.progress__timer {
+    color: var(--vue-dark);
+    margin-left: 10px;
 }
 
 .control {
