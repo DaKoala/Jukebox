@@ -33,8 +33,12 @@ class Jukebox {
         this.dom.playBtn = document.getElementById(params.playId);
         this.dom.container = document.getElementById(params.containerId);
         this.dom.shuffle = document.getElementById(params.shuffleId);
+        this.dom.random = document.getElementById(params.randomId);
         this.dom.shuffle.addEventListener('click', () => {
-            this.shuffle()
+            this.shufflePlaylist()
+        });
+        this.dom.random.addEventListener('click', () => {
+            this.playRandomSong();
         });
         this.dom.playBtn.addEventListener('click', () => {
             this.playCurrent();
@@ -120,7 +124,7 @@ class Jukebox {
         return this;
     }
 
-    shuffle() {
+    shufflePlaylist() {
         const currSong = this.getCurrentSong();
         for (let i = this.songs.length - 1; i > 0; i -= 1) {
             const randomIndex = Math.floor(Math.random() * i);
@@ -130,6 +134,19 @@ class Jukebox {
         }
         this.songPointer = this.songs.indexOf(currSong);
         this.reloadSongElement();
+        return this;
+    }
+
+    playRandomSong() {
+        if (this.songs.length <= 1) {
+            return this;
+        }
+        const currIndex = this.songPointer;
+        let randomIndex = Math.floor(Math.random() * (this.songs.length - 1));
+        if (randomIndex >= currIndex) {
+            randomIndex += 1;
+        }
+        this.selectSong(randomIndex);
         return this;
     }
 
@@ -293,4 +310,5 @@ const jukebox = new Jukebox({
     timerId: 'timer',
     containerId: 'songs',
     shuffleId: 'shuffle',
+    randomId: 'dice',
 });
