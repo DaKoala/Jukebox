@@ -116,6 +116,32 @@ class Jukebox {
         return this;
     }
 
+    upList(index) {
+        if (index === 0) {
+            return;
+        }
+        const currSong = this.getCurrentSong();
+        const tmp = this.songs[index];
+        this.songs[index] = this.songs[index - 1];
+        this.songs[index - 1] = tmp;
+        this.songPointer = this.songs.indexOf(currSong);
+        this.reloadSongElement();
+        return this;
+    }
+
+    downList(index) {
+        if (index === this.songs.length - 1) {
+            return;
+        }
+        const currSong = this.getCurrentSong();
+        const tmp = this.songs[index];
+        this.songs[index] = this.songs[index + 1];
+        this.songs[index + 1] = tmp;
+        this.songPointer = this.songs.indexOf(currSong);
+        this.reloadSongElement();
+        return this;
+    }
+
     selectSong(index) {
         this.changeSong(() => {
             this.songPointer = index;
@@ -182,12 +208,27 @@ class Jukebox {
         const number = document.createElement('div');
         const title = document.createElement('div');
         const singer = document.createElement('div');
+        const buttons = document.createElement('div');
         number.textContent = index >= 9 ? String(index + 1) : `0${index + 1}`;
         number.classList.add('list__item');
         title.textContent = song.name;
         title.classList.add('list__item');
         singer.textContent = song.artist;
         singer.classList.add('list__item');
+        const upListBtn = document.createElement('i');
+        upListBtn.classList.add('fas', 'fa-sort-amount-up', 'list__btn');
+        upListBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            this.upList(index);
+        });
+        const downListBtn = document.createElement('i');
+        downListBtn.classList.add('fas', 'fa-sort-amount-down', 'list__btn');
+        downListBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            this.downList(index);
+        });
+        buttons.appendChild(upListBtn);
+        buttons.appendChild(downListBtn);
         item.classList.add('list__cell');
         if (this.songPointer === index) {
             item.classList.add('list__cell--active');
@@ -195,6 +236,7 @@ class Jukebox {
         item.appendChild(number);
         item.appendChild(title);
         item.appendChild(singer);
+        item.appendChild(buttons);
         item.addEventListener('click', () => {
             this.selectSong(index);
         });
@@ -203,6 +245,14 @@ class Jukebox {
 
     appendSongElement(element) {
         this.dom.container.appendChild(element);
+        return this;
+    }
+
+    reloadSongElement() {
+        this.dom.container.innerHTML = '';
+        this.songs.forEach((song, index) => {
+            this.appendSongElement(this.createSongElement(song, index));
+        });
         return this;
     }
 }

@@ -109,6 +109,15 @@ html {
     grid-template-columns: 1fr 4fr 4fr 2fr;
 }
 
+.list__btn {
+    margin-right: 5px;
+    color: #666666;
+}
+
+.list__btn:hover {
+    color: var(--vue-green);
+}
+
 .list__song-container .list__cell {
     cursor: pointer;
 }
