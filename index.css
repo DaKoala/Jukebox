@@ -88,3 +88,39 @@ html {
     align-items: center;
     cursor: pointer;
 }
+
+.list {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 50px;
+}
+
+.list__title {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    font-size: 20px;
+    color: var(--vue-dark);
+}
+
+.list__cell {
+    padding: 5px 0;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 4fr 4fr 2fr;
+}
+
+.list__song-container .list__cell {
+    cursor: pointer;
+}
+
+.list__song-container .list__cell:nth-child(odd) {
+    background-color: #efefef;
+}
+
+.list__song-container .list__cell.list__cell--active {
+    background-color: #cccccc;
+}
+
+.list__item:first-child {
+    justify-self: center;
+}

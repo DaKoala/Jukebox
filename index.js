@@ -22,11 +22,6 @@ class Jukebox {
 
     constructor(params) {
         this.songs = params.songs;
-        this.songs.forEach(({ audio }) => {
-            audio.addEventListener('ended', () => {
-                this.next();
-            });
-        });
         this.songPointer = 0;
         this.rotateDeg = 0;
         this.dom = {};
@@ -36,6 +31,7 @@ class Jukebox {
         this.dom.progress = document.getElementById(params.progressId);
         this.dom.timer = document.getElementById(params.timerId);
         this.dom.playBtn = document.getElementById(params.playId);
+        this.dom.container = document.getElementById(params.containerId);
         this.dom.playBtn.addEventListener('click', () => {
             this.playCurrent();
         });
@@ -50,6 +46,12 @@ class Jukebox {
         this.dom.stopBtn = document.getElementById(params.stopId);
         this.dom.stopBtn.addEventListener('click', () => {
             this.stop();
+        });
+        this.songs.forEach((song, index) => {
+            song.audio.addEventListener('ended', () => {
+                this.next();
+            });
+            this.appendSongElement(this.createSongElement(song, index));
         });
         this.getCurrentAudio().addEventListener('loadeddata', () => {
             this.updateInfo();
@@ -114,11 +116,25 @@ class Jukebox {
         return this;
     }
 
+    selectSong(index) {
+        this.changeSong(() => {
+            this.songPointer = index;
+        });
+    }
+
     changeSong(pointerFunc=(function(){})) {
+        const currState = this.getCurrentAudio().paused;
         this.stop();
+        this.getCurrentSongElement().classList.remove('list__cell--active');
         pointerFunc();
-        this.playCurrent();
-        this.changeIconToPause();
+        this.getCurrentSongElement().classList.add('list__cell--active');
+        if (currState) {
+            this.getCurrentAudio().pause();
+            this.changeIconToPlay();
+        } else {
+            this.getCurrentAudio().play();
+            this.changeIconToPause();
+        }
         this.updateInfo();
         this.getCurrentAudio().addEventListener('timeupdate', () => {
             this.updateProgress()
@@ -152,6 +168,43 @@ class Jukebox {
         const isOutOfBound = this.songPointer <= 0;
         this.songPointer = isOutOfBound ? this.songs.length - 1 : this.songPointer - 1;
     }
+
+    getNthSongElement(index) {
+        return this.dom.container.childNodes[index];
+    }
+
+    getCurrentSongElement() {
+        return this.getNthSongElement(this.songPointer);
+    }
+
+    createSongElement(song, index) {
+        const item = document.createElement('div');
+        const number = document.createElement('div');
+        const title = document.createElement('div');
+        const singer = document.createElement('div');
+        number.textContent = index >= 9 ? String(index + 1) : `0${index + 1}`;
+        number.classList.add('list__item');
+        title.textContent = song.name;
+        title.classList.add('list__item');
+        singer.textContent = song.artist;
+        singer.classList.add('list__item');
+        item.classList.add('list__cell');
+        if (this.songPointer === index) {
+            item.classList.add('list__cell--active');
+        }
+        item.appendChild(number);
+        item.appendChild(title);
+        item.appendChild(singer);
+        item.addEventListener('click', () => {
+            this.selectSong(index);
+        });
+        return item;
+    }
+
+    appendSongElement(element) {
+        this.dom.container.appendChild(element);
+        return this;
+    }
 }
 
 const songs = [
@@ -171,4 +224,5 @@ const jukebox = new Jukebox({
     coverId: 'cover',
     progressId: 'progress',
     timerId: 'timer',
+    containerId: 'songs',
 });
