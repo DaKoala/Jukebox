@@ -32,6 +32,10 @@ class Jukebox {
         this.dom.timer = document.getElementById(params.timerId);
         this.dom.playBtn = document.getElementById(params.playId);
         this.dom.container = document.getElementById(params.containerId);
+        this.dom.shuffle = document.getElementById(params.shuffleId);
+        this.dom.shuffle.addEventListener('click', () => {
+            this.shuffle()
+        });
         this.dom.playBtn.addEventListener('click', () => {
             this.playCurrent();
         });
@@ -113,6 +117,19 @@ class Jukebox {
             audio.pause();
             this.changeIconToPlay();
         }
+        return this;
+    }
+
+    shuffle() {
+        const currSong = this.getCurrentSong();
+        for (let i = this.songs.length - 1; i > 0; i -= 1) {
+            const randomIndex = Math.floor(Math.random() * i);
+            const tmp = this.songs[randomIndex];
+            this.songs[randomIndex] = this.songs[i];
+            this.songs[i] = tmp;
+        }
+        this.songPointer = this.songs.indexOf(currSong);
+        this.reloadSongElement();
         return this;
     }
 
@@ -275,4 +292,5 @@ const jukebox = new Jukebox({
     progressId: 'progress',
     timerId: 'timer',
     containerId: 'songs',
+    shuffleId: 'shuffle',
 });

@@ -112,6 +112,7 @@ html {
 .list__btn {
     margin-right: 5px;
     color: #666666;
+    cursor: pointer;
 }
 
 .list__btn:hover {
